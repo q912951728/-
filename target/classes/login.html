@@ -28,8 +28,8 @@
             return $.ajax({
                 url: `${API_BASE_URL}/login/doLogin`,
                 type: 'POST',
-                contentType: 'application/json',
-                data: JSON.stringify({
+                contentType: 'application/json', // 确保发送的数据类型为 JSON
+                data: JSON.stringify({ // 将数据转换为 JSON 字符串
                     mobile: mobile,
                     password: password
                 }),

@@ -4,6 +4,7 @@ import com.example.seckill.pojo.User;
 import com.example.seckill.service.IUserService;
 import com.example.seckill.vo.LoginVo;
 import com.example.seckill.vo.RespBean;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,7 +37,7 @@ public class LoginController {
      */
     @PostMapping("/doLogin")
     @ResponseBody
-    public RespBean doLogin(@RequestBody LoginVo loginVo) {
+    public RespBean doLogin(@Valid @RequestBody LoginVo loginVo) {
         log.info("{}", loginVo);
         return userService.doLogin(loginVo);
     }
