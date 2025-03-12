@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <title>登录</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="static/MD5Util.js"></script> <!-- 添加 MD5Util.js 的引用 -->
-    <script src="static/api.js"></script> <!-- 添加 api.js 的引用 -->
+    <script src="../static/MD5Util.js"></script> <!-- 添加 MD5Util.js 的引用 -->
+    <script src="../static/api.js"></script> <!-- 添加 api.js 的引用 -->
     <script>
         $(document).ready(function() {
             $('form').on('submit', function(event) {
@@ -25,9 +25,14 @@
 
         // 登录API
         function doLogin(mobile, password) {
+            console.log("Sending login request with mobile:", mobile, "and password:", password); // 添加日志
+            console.log(document.cookie)
             return $.ajax({
                 url: `${API_BASE_URL}/login/doLogin`,
                 type: 'POST',
+                xhrFields: {
+                    withCredentials: true
+                },
                 contentType: 'application/json', // 确保发送的数据类型为 JSON
                 data: JSON.stringify({ // 将数据转换为 JSON 字符串
                     mobile: mobile,
@@ -36,6 +41,7 @@
                 success: function(response) {
                     if (response.code === 200) {
                         alert('登录成功');
+                        window.location.href = 'goodsList.html'; // 登录成功后跳转到商品页
                     } else {
                         alert('登录失败: ' + response.message);
                     }

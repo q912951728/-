@@ -4,7 +4,6 @@ import com.example.seckill.vo.RespBean;
 import com.example.seckill.vo.RespBeanEnum;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -18,6 +17,9 @@ public class GlovalExceptionHandler {
      */
     @ExceptionHandler(Exception.class)
     public RespBean handleException(Exception e) {
+
+        System.out.println("异常为"+e);
+
         if (e instanceof GlobalException) {
             GlobalException globalException = (GlobalException) e;
             return RespBean.error(globalException.getRespBeanEnum());

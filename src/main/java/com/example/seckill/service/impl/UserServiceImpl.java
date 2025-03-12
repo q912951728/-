@@ -5,16 +5,18 @@ import com.example.seckill.exception.GlobalException;
 import com.example.seckill.mapper.UserMapper;
 import com.example.seckill.pojo.User;
 import com.example.seckill.service.IUserService;
+import com.example.seckill.util.CookieUtil;
 import com.example.seckill.util.MD5Util;
-import com.example.seckill.util.ValidatorUtil;
+import com.example.seckill.util.UUIDUtil;
 import com.example.seckill.vo.LoginVo;
 import com.example.seckill.vo.RespBean;
 import com.example.seckill.vo.RespBeanEnum;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -34,13 +36,16 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
+
     /**
      * 登录
      * @param loginVo
      * @return
      */
     @Override
-    public RespBean doLogin(LoginVo loginVo) {
+    public RespBean doLogin(LoginVo loginVo , HttpServletRequest request, HttpServletResponse response) {
         String mobile = loginVo.getMobile();
         String password = loginVo.getPassword();
 
@@ -60,6 +65,32 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             throw new GlobalException(RespBeanEnum.LOGIN_ERROR);
         }
 
+
+
+        //生成cookie
+        String ticket = UUIDUtil.generateUUID();
+
+        System.out.println(user.toString());
+        //将用户信息存入redis
+        redisTemplate.opsForValue().set("user:"+ticket,user.toString());
+
+        //request.getSession().setAttribute(ticket,user);
+        CookieUtil.setCookie(request,response,"userTicket",ticket);
+
         return RespBean.success();
     }
+
+
+    @Override
+    public User getUserByCookie(String userTicket, HttpServletRequest request, HttpServletResponse response) {
+        if (userTicket == null || userTicket.isEmpty()){
+            return null;
+        }
+        User user = (User) redisTemplate.opsForValue().get("user:" + userTicket);
+        if (user != null){
+            CookieUtil.setCookie(request,response,"userTicket",userTicket);
+        }
+        return user;
+    }
+
 }

@@ -4,6 +4,8 @@ import com.example.seckill.pojo.User;
 import com.example.seckill.service.IUserService;
 import com.example.seckill.vo.LoginVo;
 import com.example.seckill.vo.RespBean;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,8 +39,8 @@ public class LoginController {
      */
     @PostMapping("/doLogin")
     @ResponseBody
-    public RespBean doLogin(@Valid @RequestBody LoginVo loginVo) {
+    public RespBean doLogin(@Valid @RequestBody LoginVo loginVo, HttpServletRequest request, HttpServletResponse response) {
         log.info("{}", loginVo);
-        return userService.doLogin(loginVo);
+        return userService.doLogin(loginVo, request, response);
     }
 }

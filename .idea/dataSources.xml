@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="seckill@localhost" uuid="535c28d8-8fcf-4490-ba8d-1ab1b196e309">
+    <data-source source="LOCAL" name="seckill@localhost [2]" uuid="b01e2d52-78a3-4cbc-a77e-de514467e188">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
@@ -13,11 +13,11 @@
       </jdbc-additional-properties>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="seckill@localhost [2]" uuid="b01e2d52-78a3-4cbc-a77e-de514467e188">
-      <driver-ref>mysql.8</driver-ref>
+    <data-source source="LOCAL" name="redis@localhost" uuid="85724dc1-bd86-41e9-9cea-e67fd79e3f60">
+      <driver-ref>redis</driver-ref>
       <synchronize>true</synchronize>
-      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306/seckill</jdbc-url>
+      <jdbc-driver>jdbc.RedisDriver</jdbc-driver>
+      <jdbc-url>jdbc:redis://192.168.43.128:6379/0</jdbc-url>
       <jdbc-additional-properties>
         <property name="com.intellij.clouds.kubernetes.db.host.port" />
         <property name="com.intellij.clouds.kubernetes.db.enabled" value="false" />
